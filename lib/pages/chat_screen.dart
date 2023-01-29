@@ -45,6 +45,8 @@ class _ChatState extends State<Chat> {
   @override
   Widget build(BuildContext context) {
     return chat_lib.Chat(
+      theme: const chat_lib.DarkChatTheme(),
+      
       messages: displayMessages(),
       onSendPressed: (txt) {
         final chat_types.TextMessage msgToBeSaved =
@@ -58,7 +60,6 @@ class _ChatState extends State<Chat> {
                 id: const Uuid().v4(),
                 partialText: txt);
 
-        
         setState(() {
           DB.addMessage(widget.recieverID, msgToBeSaved);
           try {

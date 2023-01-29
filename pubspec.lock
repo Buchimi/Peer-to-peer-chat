@@ -102,6 +102,22 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_animated_button:
+    dependency: "direct main"
+    description:
+      name: flutter_animated_button
+      sha256: "88b2caf88685eccc8ffda2359022e5a1d1c714dd5a779aa33f04405f403008f8"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.2"
+  flutter_animation_set:
+    dependency: "direct main"
+    description:
+      name: flutter_animation_set
+      sha256: f1bfb570b20347875b8ebc8c1ee923f27e76d333fe33c356aea204645c84fb3a
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.4"
   flutter_chat_types:
     dependency: transitive
     description:
@@ -438,5 +454,5 @@ packages:
     source: hosted
     version: "0.3.3"
 sdks:
-  dart: ">=2.19.0 <4.0.0"
+  dart: ">=2.19.0 <3.0.0"
   flutter: ">=3.0.0"

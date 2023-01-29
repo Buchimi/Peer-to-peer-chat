@@ -39,6 +39,8 @@ dependencies:
   bubble: ^1.2.1
   flutter_chat_ui: ^1.6.6
   uuid: ^3.0.7
+  flutter_animation_set: ^0.0.4
+  flutter_animated_button: ^2.0.2
 
 
 dev_dependencies:
