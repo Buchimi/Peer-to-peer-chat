@@ -1,115 +1,148 @@
-
 import 'package:a_talk_plus/login/attendant.dart';
 import 'package:a_talk_plus/login/login.dart';
+import 'package:a_talk_plus/pages/chat_screen.dart';
+import 'package:a_talk_plus/pages/home_screen.dart';
+import 'package:a_talk_plus/pages/login_page.dart';
+import 'package:a_talk_plus/services/constants.dart';
+import 'package:a_talk_plus/services/db.dart';
+import 'package:a_talk_plus/services/helper.dart';
+import 'package:a_talk_plus/pages/Scanner.dart';
 import 'package:flutter/material.dart';
+import 'package:nearby_connections/nearby_connections.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+import 'models/user.dart';
 
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+class Mine extends StatelessWidget {
+  const Mine({super.key});
 
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(debugShowCheckedModeBanner: false, home: MyAppExt());
+    return MaterialApp(
+      initialRoute: "/",
+      routes: {
+        '/': (context) => const MyHomePage(),
+        '/login': (context) => const LoginPage(),
+        '/attendant login': (context) => const Attendant(),
+        '/user login': (context) => const LoginPage()
+      },
+      title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        // This is the theme of your application.
+        //
+        // Try running your application with "flutter run". You'll see the
+        // application has a blue toolbar. Then, without quitting the app, try
+        // changing the primarySwatch below to Colors.green and then invoke
+        // "hot reload" (press "r" in the console where you ran "flutter run",
+        // or simply save your changes to "hot reload" in a Flutter IDE).
+        // Notice that the counter didn't reset back to zero; the application
+        // is not restarted.
+        primarySwatch: Colors.blue,
+      ),
+      // home: const MyHomePage(),
+    );
   }
 }
 
-class MyAppExt extends StatefulWidget {
-  MyAppExt({Key? key}) : super(key: key); // Constructor
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key});
+
+  // This widget is the home page of your application. It is stateful, meaning
+  // that it has a State object (defined below) that contains fields that affect
+  // how it looks.
+
+  // This class is the configuration for the state. It holds the values (in this
+  // case the title) provided by the parent (in this case the App widget) and
+  // used by the build method of the State. Fields in a Widget subclass are
+  // always marked "final".
 
   @override
-  _MyAppExtState createState() => _MyAppExtState(); // Override our app
+  State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyAppExtState extends State<MyAppExt> {
+class _MyHomePageState extends State<MyHomePage> {
+  User user = User(name: "Bee", userID: Constants.myID);
+  String activeUser = "";
+  final GlobalKey<ScaffoldState> _scafoldState = GlobalKey<ScaffoldState>();
+  Widget widx = const DrawerHeader(
+    decoration: BoxDecoration(
+      color: Colors.blue,
+    ),
+    child: Text(
+      'American Airlines Chat',
+      style: TextStyle(
+        color: Colors.white,
+        fontSize: 24,
+      ),
+    ),
+  );
+  List<Widget> generateList() {
+    List<Widget> list = [widx];
+
+    DB.getPeers().values.forEach((element) {
+      list.add(ListTile(
+        title: Text(
+          element.name,
+          //style: TextStyle(color: Colors.white),
+        ),
+        onTap: () => setState(() {
+          activeUser = element.userID;
+          _scafoldState.currentState?.closeDrawer();
+        }),
+      ));
+    });
+    return list;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Container(
-            width: double.infinity,
-            height: double.infinity,
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("images/sky.jpg"),
-                fit: BoxFit.cover,
-              ),
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Navigator.pushNamed(context, "/login");
+    });
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        key: _scafoldState,
+        drawer: Drawer(
+          // backgroundColor: Color.fromARGB(255, 22, 11, 51),
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: generateList(),
+          ),
+        ),
+        appBar: AppBar(
+          title: Text(activeUser != ""
+              ? DB.getPeers().containsKey(activeUser)
+                  ? DB.getPeers()[activeUser]!.name
+                  : activeUser
+              : "Chat"),
+        ),
+        body: () {
+          if (activeUser != "") {
+            return Chat(recieverID: activeUser);
+          }
+          // Navigator.of(context).push();
+          //Navigator.pushNamed(context, "/login");
+          return const Center(
+            child: Text(
+              "Find a peer by searching",
+              style: TextStyle(fontSize: 28),
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  "ChatAA",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontSize: 200,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.red.withOpacity(1.0)),
+          );
+        }(),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (ctx) => Scanner(
+                  nickname: Constants.myUserName,
                 ),
-
-                const SizedBox(
-                  height: 20,
-                ),
-
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    foregroundColor: Colors.black,
-                    backgroundColor: Colors.white,
-                    minimumSize: const Size(400, 100),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0)),
-                  ),
-
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => Login()),
-                    );
-                  },
-
-                  child: const Text(
-                    'Passenger',
-                    style: TextStyle(fontSize: 50, fontFamily: 'RobotoMono'),
-                  ), // Child of button (not constant of variable can change)
-                ), // First button
-
-                const SizedBox(
-                  height: 20,
-                ),
-
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    foregroundColor: Colors.white,
-                    backgroundColor: Colors.red,
-                    minimumSize: const Size(400, 100),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0)),
-                  ),
-
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const Attendant()),
-                    );
-                  },
-
-                  child: const Text(
-                    'Flight Attendant',
-                    style: TextStyle(fontSize: 50, fontFamily: 'RobotoMono'),
-                  ), // Child of button (not constant of variable can change)
-                ),
-              ],
-            )),
-
+              ),
+            );
+          },
+          child: const Icon(Icons.search),
+        ),
       ),
     );
   }
