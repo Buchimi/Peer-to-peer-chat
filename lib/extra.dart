@@ -101,6 +101,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       appBar: AppBar(
+        backgroundColor: Colors.red,
         title: Text(activeUser != ""
             ? DB.getPeers().containsKey(activeUser)
                 ? DB.getPeers()[activeUser]!.name
@@ -111,7 +112,11 @@ class _MyHomePageState extends State<MyHomePage> {
         if (activeUser != "") {
           return Chat(recieverID: activeUser);
         }
-        return Center(child: Text("Find a peer by searching", style: TextStyle(fontSize: 28),));
+        return Center(
+            child: Text(
+          "Find a peer by searching",
+          style: TextStyle(fontSize: 28),
+        ));
       }(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
