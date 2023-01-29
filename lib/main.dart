@@ -1,6 +1,15 @@
 import 'package:a_talk_plus/login/attendant.dart';
 import 'package:a_talk_plus/login/login.dart';
+
+import 'package:a_talk_plus/pages/chat_screen.dart';
+import 'package:a_talk_plus/services/constants.dart';
+import 'package:a_talk_plus/services/helper.dart';
+import 'package:a_talk_plus/pages/Scanner.dart';
+
 import 'package:flutter/material.dart';
+import 'package:nearby_connections/nearby_connections.dart';
+
+import 'models/user.dart';
 
 void main() {
   runApp(const MyApp());

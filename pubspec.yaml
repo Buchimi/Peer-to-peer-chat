@@ -36,6 +36,9 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   nearby_connections: ^3.2.0
+  bubble: ^1.2.1
+  flutter_chat_ui: ^1.6.6
+  uuid: ^3.0.7
 
 
 dev_dependencies:
