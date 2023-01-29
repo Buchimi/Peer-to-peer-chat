@@ -112,11 +112,17 @@ class _AttendantExtState extends State<AttendantExt> {
                     Constants.myUserName = _username;
                   });
 
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => MyHomePage(),
-                      ));
+                  _username != "" && _password != ""
+                      ? Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => MyHomePage(),
+                          ))
+                      : Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Attendant(),
+                          ));
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.red,

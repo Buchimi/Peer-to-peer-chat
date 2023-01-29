@@ -111,8 +111,17 @@ class _LoginExtState extends State<LoginExt> {
                     Constants.myUserName = _usernameTEC.text;
                   });
 
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => MyHomePage()));
+                  _seatNumber != "" && _flightNumber != ""
+                      ? Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => MyHomePage(),
+                          ))
+                      : Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Login(),
+                          ));
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.red,
