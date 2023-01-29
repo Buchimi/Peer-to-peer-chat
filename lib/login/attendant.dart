@@ -132,28 +132,6 @@ class _AttendantExtState extends State<AttendantExt> {
                         fontSize: 18,
                       )),
                 ),
-
-                // const Text("Check In",
-                //     style: TextStyle(
-                //       color: Colors.white,
-                //       fontWeight: FontWeight.bold,
-                //       fontSize: 18,
-                //     )),
-                // child: Container(
-                //   // padding: const EdgeInsets.all(20),
-                //   // decoration: BoxDecoration(
-                //   //   color: Colors.red,
-                //   //   borderRadius: BorderRadius.circular(12),
-                //   // ),
-                //   child: const Center(
-                //     child: Text('Check In',
-                //         style: TextStyle(
-                //           color: Colors.white,
-                //           fontWeight: FontWeight.bold,
-                //           fontSize: 18,
-                //         )),
-                //   ),
-                // ),
               ),
             ),
             const SizedBox(height: 10),

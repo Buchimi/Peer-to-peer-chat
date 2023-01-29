@@ -49,7 +49,7 @@ class _MyAppExtState extends State<MyAppExt> {
                   "ChatAA",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      fontSize: 200,
+                      fontSize: 150,
                       fontWeight: FontWeight.bold,
                       color: Colors.red.withOpacity(1.0)),
                 ),
