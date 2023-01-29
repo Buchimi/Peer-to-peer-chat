@@ -1,8 +1,10 @@
+import 'package:a_talk_plus/extra.dart';
 import 'package:a_talk_plus/login/attendant.dart';
+import 'package:a_talk_plus/services/constants.dart';
 import 'package:flutter/material.dart';
 
 TextEditingController _seatNumberTEC = TextEditingController();
-TextEditingController _flightNumberTEC = TextEditingController();
+TextEditingController _usernameTEC = TextEditingController();
 
 String _seatNumber = "";
 String _flightNumber = "";
@@ -89,10 +91,9 @@ class _LoginExtState extends State<LoginExt> {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 20.0),
                   child: TextField(
-                    controller: _flightNumberTEC,
+                    controller: _usernameTEC,
                     decoration: const InputDecoration(
-                        border: InputBorder.none,
-                        hintText: 'Enter flight number'),
+                        border: InputBorder.none, hintText: 'Username'),
                   ),
                 ),
               ),
@@ -100,28 +101,24 @@ class _LoginExtState extends State<LoginExt> {
             const SizedBox(height: 20),
 
             //signin button
-            ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  _seatNumber = _seatNumberTEC.text;
-                  _flightNumber = _flightNumberTEC.text;
-                });
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    _seatNumber = _seatNumberTEC.text;
+                    _flightNumber = _usernameTEC.text;
+                    Constants.myUserName = _usernameTEC.text;
+                  });
 
-                _seatNumber != "" && _flightNumber != ""
-                    ? Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const Attendant()))
-                    : Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const Login()),
-                      );
-              },
-              child: Container(
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: Colors.red,
-                  borderRadius: BorderRadius.circular(12),
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => MyHomePage()));
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
                 ),
                 child: const Center(
                   child: Text('Chat',
