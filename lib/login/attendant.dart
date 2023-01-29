@@ -1,4 +1,6 @@
+import 'package:a_talk_plus/extra.dart';
 import 'package:a_talk_plus/login/login.dart';
+import 'package:a_talk_plus/services/constants.dart';
 import 'package:flutter/material.dart';
 
 TextEditingController _usernameTEC = TextEditingController();
@@ -97,27 +99,27 @@ class _AttendantExtState extends State<AttendantExt> {
             const SizedBox(height: 20),
 
             //signin button
-            ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  _username = _usernameTEC.text;
-                  _password = _passwordTEC.text;
-                });
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    _username = _usernameTEC.text;
+                    _password = _passwordTEC.text;
+                    Constants.myUserName = _username;
+                  });
 
-                _username != "" && _password != ""
-                    ? Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => const Login()))
-                    : Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const Attendant()),
-                      );
-              },
-              child: Container(
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: Colors.red,
-                  borderRadius: BorderRadius.circular(12),
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MyHomePage(),
+                      ));
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
                 ),
                 child: const Center(
                   child: Text('Check In',
@@ -127,6 +129,28 @@ class _AttendantExtState extends State<AttendantExt> {
                         fontSize: 18,
                       )),
                 ),
+
+                // const Text("Check In",
+                //     style: TextStyle(
+                //       color: Colors.white,
+                //       fontWeight: FontWeight.bold,
+                //       fontSize: 18,
+                //     )),
+                // child: Container(
+                //   // padding: const EdgeInsets.all(20),
+                //   // decoration: BoxDecoration(
+                //   //   color: Colors.red,
+                //   //   borderRadius: BorderRadius.circular(12),
+                //   // ),
+                //   child: const Center(
+                //     child: Text('Check In',
+                //         style: TextStyle(
+                //           color: Colors.white,
+                //           fontWeight: FontWeight.bold,
+                //           fontSize: 18,
+                //         )),
+                //   ),
+                // ),
               ),
             ),
             const SizedBox(height: 10),

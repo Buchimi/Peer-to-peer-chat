@@ -1,5 +1,8 @@
+import 'package:a_talk_plus/login/attendant.dart';
+import 'package:a_talk_plus/login/login.dart';
 import 'package:a_talk_plus/pages/chat_screen.dart';
 import 'package:a_talk_plus/pages/home_screen.dart';
+import 'package:a_talk_plus/pages/login_page.dart';
 import 'package:a_talk_plus/services/constants.dart';
 import 'package:a_talk_plus/services/db.dart';
 import 'package:a_talk_plus/services/helper.dart';
@@ -20,6 +23,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      initialRoute: "/",
+      routes: {
+        '/': (context) => const MyHomePage(),
+        '/login': (context) => const LoginPage(),
+        '/attendant login': (context) => const Attendant(),
+        '/user login': (context) => const LoginPage()
+      },
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -34,7 +44,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(),
+      // home: const MyHomePage(),
     );
   }
 }
@@ -91,39 +101,52 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: _scafoldState,
-      drawer: Drawer(
-        // backgroundColor: Color.fromARGB(255, 22, 11, 51),
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: generateList(),
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Navigator.pushNamed(context, "/login");
+    });
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        key: _scafoldState,
+        drawer: Drawer(
+          // backgroundColor: Color.fromARGB(255, 22, 11, 51),
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: generateList(),
+          ),
         ),
-      ),
-      appBar: AppBar(
-        title: Text(activeUser != ""
-            ? DB.getPeers().containsKey(activeUser)
-                ? DB.getPeers()[activeUser]!.name
-                : activeUser
-            : "Chat"),
-      ),
-      body: () {
-        if (activeUser != "") {
-          return Chat(recieverID: activeUser);
-        }
-        return Center(child: Text("Find a peer by searching", style: TextStyle(fontSize: 28),));
-      }(),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (ctx) => const Scanner(
-                nickname: 'Eli',
-              ),
+        appBar: AppBar(
+          title: Text(activeUser != ""
+              ? DB.getPeers().containsKey(activeUser)
+                  ? DB.getPeers()[activeUser]!.name
+                  : activeUser
+              : "Chat"),
+        ),
+        body: () {
+          if (activeUser != "") {
+            return Chat(recieverID: activeUser);
+          }
+          // Navigator.of(context).push();
+          //Navigator.pushNamed(context, "/login");
+          return const Center(
+            child: Text(
+              "Find a peer by searching",
+              style: TextStyle(fontSize: 28),
             ),
           );
-        },
-        child: const Icon(Icons.search),
+        }(),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (ctx) => Scanner(
+                  nickname: Constants.myUserName,
+                ),
+              ),
+            );
+          },
+          child: const Icon(Icons.search),
+        ),
       ),
     );
   }
