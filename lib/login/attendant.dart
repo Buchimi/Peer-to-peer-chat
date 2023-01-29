@@ -90,6 +90,9 @@ class _AttendantExtState extends State<AttendantExt> {
                     decoration: const InputDecoration(
                         border: InputBorder.none,
                         hintText: 'Enter employee password'),
+                    obscureText: true,
+                    enableSuggestions: false,
+                    autocorrect: false,
                   ),
                 ),
               ),
